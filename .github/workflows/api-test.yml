@@ -1,0 +1,29 @@
+name: API Test
+
+on: [push, pull_request]
+
+jobs:
+  test-crwaler:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+    name: Python ${{ matrix.python-version }} sample
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+
+      - name: Install packages
+        run: |
+          pip install -r requirements.txt
+
+      - name: Test bilili API
+        run: |
+          pip install pytest
+          pytest
